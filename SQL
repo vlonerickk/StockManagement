@@ -1,0 +1,35 @@
+CREATE TABLE produto (
+    id NUMBER(19) PRIMARY KEY,
+    nome VARCHAR2(255) NOT NULL,
+    preco NUMBER(10, 2) NOT NULL,
+    quantidade_estoque NUMBER(10) NOT NULL
+);
+
+CREATE SEQUENCE produto_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+CREATE OR REPLACE TRIGGER produto_bi
+BEFORE INSERT ON produto
+FOR EACH ROW
+BEGIN
+    IF :NEW.id IS NULL THEN
+        :NEW.id := produto_seq.NEXTVAL;
+    END IF;
+END;
+/
+
+CREATE INDEX idx_produto_nome ON produto (nome);
+
+INSERT INTO produto (nome, preco, quantidade_estoque) VALUES
+('Notebook Gamer', 5500.00, 15);
+
+INSERT INTO produto (nome, preco, quantidade_estoque) VALUES
+('Mouse Sem Fio', 89.90, 50);
+
+INSERT INTO produto (nome, preco, quantidade_estoque) VALUES
+('Monitor UltraWide', 1850.50, 8);
+
+COMMIT;
