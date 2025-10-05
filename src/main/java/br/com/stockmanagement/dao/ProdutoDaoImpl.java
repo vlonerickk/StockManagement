@@ -11,12 +11,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Implementação do ProdutoDao utilizando JDBC.
- */
+
 public class ProdutoDaoImpl implements ProdutoDao {
 
-    // Comandos SQL
+    //Comandos SQL
     private static final String SQL_INSERT = "INSERT INTO produto (nome, preco, quantidade_estoque) VALUES (?, ?, ?)";
     private static final String SQL_SELECT_ALL = "SELECT id, nome, preco, quantidade_estoque FROM produto ORDER BY id";
     private static final String SQL_SELECT_BY_ID = "SELECT id, nome, preco, quantidade_estoque FROM produto WHERE id = ?";
@@ -24,9 +22,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
     private static final String SQL_DELETE = "DELETE FROM produto WHERE id = ?";
     private static final String SQL_SELECT_BY_NAME = "SELECT id, nome, preco, quantidade_estoque FROM produto WHERE nome LIKE ?";
 
-    /**
-     * Mapeia um ResultSet para um objeto Produto.
-     */
+
     private Produto mapResultSetToProduto(ResultSet rs) throws SQLException {
         Produto produto = new Produto();
         produto.setId(rs.getLong("id"));
@@ -43,7 +39,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
         ResultSet rs = null;
         try {
             conn = ConnectionFactory.getConnection();
-            // Use RETURN_GENERATED_KEYS para obter o ID gerado pelo banco
+            //Use RETURN_GENERATED_KEYS para obter o ID gerado pelo banco
             pstmt = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, produto.getNome());
             pstmt.setDouble(2, produto.getPreco());
@@ -55,7 +51,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
                 throw new SQLException("Falha ao cadastrar produto, nenhuma linha afetada.");
             }
 
-            // Obtém o ID gerado e seta no objeto
+            //Obtém o ID gerado e seta no objeto
             rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 produto.setId(rs.getLong(1));
@@ -63,7 +59,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
             return produto;
 
         } finally {
-            // Fecha recursos
+            //Fecha recursos
             ConnectionFactory.closeStatement(pstmt);
             ConnectionFactory.closeConnection(conn);
         }
@@ -84,7 +80,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
             if (rs.next()) {
                 return mapResultSetToProduto(rs);
             }
-            return null; // Não encontrado
+            return null;
         } finally {
             ConnectionFactory.closeStatement(pstmt);
             ConnectionFactory.closeConnection(conn);

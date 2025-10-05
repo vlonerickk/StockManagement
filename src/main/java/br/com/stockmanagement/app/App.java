@@ -10,9 +10,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * Classe principal para a interação via console (Menu Principal CRUD).
- */
+
 public class App {
 
     private final ProdutoDao produtoDao = new ProdutoDaoImpl();
@@ -23,9 +21,7 @@ public class App {
         app.iniciar();
     }
 
-    /**
-     * Loop principal da aplicação, exibe o menu e processa as opções.
-     */
+
     public void iniciar() {
         int opcao = -1;
         do {
@@ -63,7 +59,7 @@ public class App {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("\n[ERRO] Entrada inválida. Por favor, digite um número.");
-                scanner.nextLine(); // Consome a linha pendente
+                scanner.nextLine();
                 opcao = -1;
             } catch (SQLException e) {
                 System.err.println("\n[ERRO SQL/DB] Ocorreu um erro no banco de dados: " + e.getMessage());
@@ -77,9 +73,7 @@ public class App {
         scanner.close();
     }
 
-    /**
-     * Exibe as opções do menu principal.
-     */
+
     private void exibirMenu() {
         System.out.println("\n====================================================");
         System.out.println("       SISTEMA DE GERENCIAMENTO DE PRODUTOS");
@@ -94,11 +88,10 @@ public class App {
         System.out.println("====================================================");
     }
 
-    // --- Métodos de Leitura e Validação ---
+    //Métodos de Leitura e Validação
 
     private String lerString(String prompt) {
         System.out.print(prompt);
-        // Garante que o scanner pegue a linha corretamente, mesmo após ler números
         if (scanner.hasNextLine()) {
             return scanner.nextLine().trim();
         }
@@ -110,11 +103,11 @@ public class App {
             try {
                 System.out.print(prompt);
                 long valor = scanner.nextLong();
-                scanner.nextLine(); // Consome o \n
+                scanner.nextLine();
                 return valor;
             } catch (InputMismatchException e) {
                 System.out.println("[ERRO] Por favor, digite um ID válido (número inteiro).");
-                scanner.nextLine(); // Limpa o buffer
+                scanner.nextLine();
             }
         }
     }
@@ -124,11 +117,11 @@ public class App {
             try {
                 System.out.print(prompt);
                 int valor = scanner.nextInt();
-                scanner.nextLine(); // Consome o \n
+                scanner.nextLine();
                 return valor;
             } catch (InputMismatchException e) {
                 System.out.println("[ERRO] Por favor, digite um número inteiro.");
-                scanner.nextLine(); // Limpa o buffer
+                scanner.nextLine();
             }
         }
     }
@@ -138,11 +131,11 @@ public class App {
             try {
                 System.out.print(prompt);
                 double valor = scanner.nextDouble();
-                scanner.nextLine(); // Consome o \n
+                scanner.nextLine();
                 return valor;
             } catch (InputMismatchException e) {
                 System.out.println("[ERRO] Por favor, digite um valor numérico válido (ex: 1500.50).");
-                scanner.nextLine(); // Limpa o buffer
+                scanner.nextLine();
             }
         }
     }
@@ -150,16 +143,12 @@ public class App {
     private void pressioneEnterParaContinuar() {
         try {
             System.out.print("\nPressione ENTER para continuar...");
-            // Uso de System.in.read() para garantir que o scanner não consuma o \n
-            // deixado por um nextLine anterior.
-            // Alternativa: scanner.nextLine() para a espera.
             System.in.read();
         } catch (IOException e) {
-            // Ignora erro de I/O na espera
         }
     }
 
-    // --- Métodos CRUD e de Pesquisa ---
+
 
     private void cadastrarProduto() throws SQLException {
         System.out.println("\n--- CADASTRO DE NOVO PRODUTO ---");
@@ -293,9 +282,6 @@ public class App {
         }
     }
 
-    /**
-     * Exibe a lista de produtos em um formato tabular claro.
-     */
     private void exibirListaFormatada(List<Produto> produtos) {
         System.out.println("+------+--------------------------------+------------+---------+");
         System.out.println("| ID   | Nome                           | Preço      | Estoque |");
